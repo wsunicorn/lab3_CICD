@@ -8,7 +8,6 @@ import os
 import sys
 import json
 import shutil
-import joblib
 import datetime
 
 
@@ -58,7 +57,7 @@ def deploy_model(model_version=None):
     with open(current_file, "w") as f:
         json.dump({"current_deploy": deploy_id, "version": version}, f, indent=2)
 
-    print(f"Deploy thanh cong!")
+    print("Deploy thanh cong!")
     print(f"Model artifacts tai: {version_dir}/")
     print(f"Current deployment: {deploy_id}")
 
