@@ -81,14 +81,12 @@ jobs:
 
       - name: Upload test results
         if: always()  # Luôn upload dù pass hay fail
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results
+        uses: actions/upload-artifact@v4
           path: test-results.xml
 
       - name: Upload model artifacts
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: trained-model
           path: |
@@ -114,7 +112,7 @@ jobs:
           python-version: "3.10"
 
       - name: Download model artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: trained-model
           path: ./
