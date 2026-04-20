@@ -1,0 +1,22 @@
+{
+  "deploy_id": "v1.0.0_20260420_142745",
+  "version": "1.0.0",
+  "timestamp": "20260420_142745",
+  "metrics": {
+    "accuracy": 0.975,
+    "f1_score": 0.9351,
+    "roc_auc": 0.9978,
+    "model_version": "1.0.0",
+    "feature_names": [
+      "feature_0",
+      "feature_1",
+      "feature_2",
+      "feature_3",
+      "feature_4",
+      "feature_5",
+      "feature_6",
+      "feature_7"
+    ]
+  },
+  "status": "active"
+}
