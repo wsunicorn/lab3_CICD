@@ -39,12 +39,11 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r Lab3_CICD/requirements.txt
+          pip install -r requirements.txt
           pip install flake8
 
       - name: Lint with flake8
         run: |
-          cd Lab3_CICD
           flake8 train.py deploy.py --max-line-length=120 --count --statistics
 
   # ===========================================================
@@ -68,16 +67,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r Lab3_CICD/requirements.txt
+          pip install -r requirements.txt
 
       - name: Train ML model
         run: |
-          cd Lab3_CICD
           python train.py
 
       - name: Run model quality tests
         run: |
-          cd Lab3_CICD
           pytest test_model.py -v \
             --tb=short \
             --junitxml=test-results.xml
@@ -87,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: Lab3_CICD/test-results.xml
+          path: test-results.xml
 
       - name: Upload model artifacts
         if: success()
@@ -95,8 +92,8 @@ jobs:
         with:
           name: trained-model
           path: |
-            Lab3_CICD/models/
-            Lab3_CICD/metrics/
+            models/
+            metrics/
 
   # ===========================================================
   # JOB 3: Deploy (chỉ khi merge vào main)
@@ -120,19 +117,17 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: trained-model
-          path: Lab3_CICD/
+          path: ./
 
       - name: Install dependencies
-        run: pip install -r Lab3_CICD/requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Deploy model
         run: |
-          cd Lab3_CICD
           python deploy.py deploy
 
       - name: Smoke test
         run: |
-          cd Lab3_CICD
           python -c "
           import joblib, numpy as np, os, json
           with open('deployments/current.json') as f:
@@ -145,6 +140,5 @@ jobs:
       - name: Notify on failure (rollback)
         if: failure()
         run: |
-          cd Lab3_CICD
           echo "Deploy failed! Rolling back..."
           python deploy.py rollback || true
